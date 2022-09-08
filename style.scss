@@ -1,0 +1,212 @@
+/**
+ * CSS variables have 77% global browser support
+ * update: now up to 87%! 
+ * But they don't work in IE,
+ * so we can use Sass for a fallback
+ * @link https://caniuse.com/#search=css%20variables
+ * 
+ * Another consideration is that 90%+ of mobile devices support CSS variables, so you could flip the media query to mobile and make it variable-only and use IE fallback code only for desktop.
+ */
+
+/** 
+ * Set fallback base font and scale ratio with Sass 
+ * Use these numbers with :root when removing fallback
+ */
+
+$font-size: 100%; // 16px
+$ratio: 1.25;
+$ratio-large: 1.35;
+
+/* Create Sass type sizes */
+
+$h4: $font-size * $ratio;
+$h3: $h4 * $ratio;
+$h2: $h3 * $ratio;
+$h1: $h2 * $ratio;
+$h5: $h4 / $ratio;
+$h6: $h5 / $ratio;
+
+$text--m: $font-size;
+$text--l: $font-size * $ratio;
+$text--xl: $text--l * $ratio;
+$text--2xl: $text--xl * $ratio;
+$text--3xl: $text--2xl * $ratio;
+$text--s: $font-size / $ratio;
+$text--xs: $text--s / $ratio;
+$text--2xs: $text--xs / $ratio;
+
+
+/* Sass second scale with larger type sizes */
+
+$h4-large: $font-size * $ratio-large;
+$h3-large: $h4-large * $ratio-large;
+$h2-large: $h3-large * $ratio-large;
+$h1-large: $h2-large * $ratio-large;
+$h5-large: $h4 / $ratio-large;
+$h6-large: $h5 / $ratio-large;
+
+$text--l-large: $font-size * $ratio-large;
+$text--xl-large: $text--l-large * $ratio-large;
+$text--2xl-large: $text--xl-large * $ratio-large;
+$text--3xl-large: $text--2xl-large * $ratio-large;
+
+
+/** 
+ * Use Sass variables with CSS variables for single variable source
+ * Replace these with above numbers in the future 
+ * It appears Sass variables need to be interpolated to strings to work with CSS variables
+ */
+
+:root {
+  --font-size: #{$font-size};
+  --ratio: #{$ratio};
+  --ratio-large: #{$ratio-large};
+
+/** 
+ * Set heading sizes with CSS variables
+ * any browser that can support variables will support Calc
+ * CSS Calc has 94% support
+ * @link https://caniuse.com/#feat=calc
+ */
+  
+  --h4: calc(var(--font-size) * var(--ratio));
+  --h3: calc(var(--h4) * var(--ratio));
+  --h2: calc(var(--h3) * var(--ratio));
+  --h1: calc(var(--h2) * var(--ratio));
+  --h5: calc(var(--h4) / var(--ratio));
+  --h6: calc(var(--h5) / var(--ratio));
+  
+  --text--m: calc(var(--font-size));
+  --text--l: calc(var(--text--m) * var(--ratio));
+  --text--xl: calc(var(--text--l) * var(--ratio));
+  --text--2xl: calc(var(--text--xl) * var(--ratio));
+  --text--3xl: calc(var(--text--2xl) * var(--ratio));
+  --text--s: calc(var(--font-size) / var(--ratio));
+  --text--xs: calc(var(--text--s) / var(--ratio));
+  --text--2xs: calc(var(--text--xs) / var(--ratio));
+}
+
+
+h1 {
+  font-size: $h1; /* variable fallback for IE11 */
+  font-size: var(--h1);
+}
+
+h2 {
+  font-size: $h2; /* variable fallback for IE11 */
+	font-size: var(--h2);
+}
+
+h3 {
+  font-size: $h3; /* variable fallback for IE11 */
+	font-size: var(--h3);
+}
+
+h4 {
+  font-size: $h4; /* variable fallback for IE11 */
+	font-size: var(--h4);
+}
+
+h5 {
+  font-size: $h5; /* variable fallback for IE11 */
+	font-size: var(--h5);
+}
+
+h6 {
+  font-size: $h6; /* variable fallback for IE11 */
+	font-size: var(--h6);
+}
+
+.text--m {
+  font-size: $text--m; /* variable fallback for IE11 */
+	font-size: var(--text--m);
+}
+
+.text--l {
+  font-size: $text--l; /* variable fallback for IE11 */
+	font-size: var(--text--l);
+}
+
+.text--xl {
+  font-size: $text--xl; /* variable fallback for IE11 */
+	font-size: var(--text--xl);
+}
+
+.text--2xl {
+  font-size: $text--2xl; /* variable fallback for IE11 */
+	font-size: var(--text--2xl);
+}
+
+.text--3xl {
+  font-size: $text--3xl; /* variable fallback for IE11 */
+	font-size: var(--text--3xl);
+}
+
+.text--s {
+  font-size: $text--s; /* variable fallback for IE11 */
+	font-size: var(--text--s);
+}
+
+.text--xs {
+  font-size: $text--xs; /* variable fallback for IE11 */
+	font-size: var(--text--xs);
+}
+
+.text--2xs {
+  font-size: $text--2xs; /* variable fallback for IE11 */
+	font-size: var(--text--2xs);
+}
+
+
+/* switch to larger ratio */
+
+@media screen and (min-width: 800px) {
+    :root {
+    --ratio: var(--ratio-large); 
+  }
+  
+  /** 
+ * 1. Variable fallback for IE11. When no longer supporting IE11, these can be removed and the ratio can be changed with the single variable change above.
+ * This method generates more code than Sass alone but preps the stylesheet for less code with vanilla CSS in the long run
+ */
+  
+  h1 {
+   font-size: $h1-large;
+  }
+  
+  h2 {
+    font-size: $h2-large;
+  }
+  
+  h3 {
+    font-size: $h3-large;
+  }
+  
+  h4 {
+    font-size: $h4-large;
+  }
+  
+  h5 {
+    font-size: $h5-large;
+  }
+  
+  h6 {
+    font-size: $h6-large;
+  }
+  
+  .text--l {
+    font-size: $text--l-large;
+  }
+  
+  .text--xl {
+    font-size: $text--xl-large;
+  }
+  
+  .text--2xl {
+    font-size: $text--2xl-large;
+  }
+  
+  .text--3xl {
+    font-size: $text--3xl-large;
+  }
+}
